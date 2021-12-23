@@ -1,13 +1,17 @@
 import React from "react";
-import { View, Text } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { View, SafeAreaView, Text } from "react-native";
+import { Header } from "../../components/Header";
+import { NowShowing } from "../../components/NowShowing";
 
 import { styles } from "./styles";
 
 export function Home() {
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.text}>This is Home</Text>
+      <Header />
+      <View style={styles.body}>
+        <NowShowing />
+      </View>
     </SafeAreaView>
   );
 }

@@ -3,14 +3,18 @@ import theme from "../../styles/theme";
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    width: "100%",
+    height: 60,
+
     backgroundColor: theme.colors.background_color,
+
+    justifyContent: "center",
+    alignItems: "center",
   },
 
-  body: {
-    flex: 1,
-    width: "100%",
-
-    marginTop: 16,
+  title: {
+    fontFamily: theme.fonts.title,
+    fontSize: 16,
+    color: theme.colors.text_title,
   },
 });
