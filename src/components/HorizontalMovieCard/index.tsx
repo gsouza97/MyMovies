@@ -4,6 +4,10 @@ import { Feather } from "@expo/vector-icons";
 
 import { styles } from "./styles";
 import theme from "../../styles/theme";
+import {
+  BorderlessButton,
+  BorderlessButtonProps,
+} from "react-native-gesture-handler";
 
 interface MovieProps {
   adult: boolean;
@@ -22,13 +26,13 @@ interface MovieProps {
   vote_count: number;
 }
 
-interface MovieData {
+interface MovieData extends BorderlessButtonProps {
   data: MovieProps;
 }
 
-export function HorizontalMovieCard({ data }: MovieData) {
+export function HorizontalMovieCard({ data, ...rest }: MovieData) {
   return (
-    <View style={styles.container}>
+    <BorderlessButton style={styles.container} activeOpacity={0.9} {...rest}>
       <Image
         style={styles.poster}
         resizeMode="contain"
@@ -44,6 +48,6 @@ export function HorizontalMovieCard({ data }: MovieData) {
           <Text style={styles.ratingText}>9.1/10 IMDb</Text>
         </View>
       </View>
-    </View>
+    </BorderlessButton>
   );
 }
