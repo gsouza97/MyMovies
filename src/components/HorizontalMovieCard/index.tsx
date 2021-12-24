@@ -8,26 +8,10 @@ import {
   BorderlessButton,
   BorderlessButtonProps,
 } from "react-native-gesture-handler";
-
-interface MovieProps {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-}
+import { MovieDTO } from "../../dtos/MovieDTO";
 
 interface MovieData extends BorderlessButtonProps {
-  data: MovieProps;
+  data: MovieDTO;
 }
 
 export function HorizontalMovieCard({ data, ...rest }: MovieData) {
@@ -45,7 +29,7 @@ export function HorizontalMovieCard({ data, ...rest }: MovieData) {
         <Text style={styles.title}>{data.title}</Text>
         <View style={styles.rating}>
           <Feather name="star" size={12} color={theme.colors.yellow} />
-          <Text style={styles.ratingText}>9.1/10 IMDb</Text>
+          <Text style={styles.ratingText}>{data.vote_average}/10 IMDb</Text>
         </View>
       </View>
     </BorderlessButton>
