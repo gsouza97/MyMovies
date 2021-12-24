@@ -4,17 +4,17 @@ import theme from "../../styles/theme";
 export const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    width: "100%",
 
-    alignItems: "flex-start",
+    width: "100%",
+    height: 128,
 
     paddingRight: 24,
     marginBottom: 8,
   },
 
   poster: {
-    height: 128,
     width: 85,
+    height: "100%",
 
     borderRadius: 8,
   },
