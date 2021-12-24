@@ -9,12 +9,12 @@ const { Screen, Navigator } = createNativeStackNavigator();
 export function StackRoutes() {
   return (
     <Navigator>
-      <Screen name="Home" component={Home} options={{ headerShown: false }} />
       <Screen
         name="MovieDetails"
         component={MovieDetails}
         options={{ headerShown: false }}
       />
+      <Screen name="Home" component={Home} options={{ headerShown: false }} />
     </Navigator>
   );
 }
