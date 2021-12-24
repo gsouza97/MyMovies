@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text, SafeAreaView, Image, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  Image,
+  ScrollView,
+  StatusBar,
+} from "react-native";
 import { BackButton } from "../../components/BackButton";
 import { Feather } from "@expo/vector-icons";
 
@@ -29,6 +36,11 @@ export function MovieDetails() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor="transparent"
+        translucent
+      />
       <Image
         style={styles.backgroundImage}
         resizeMode="stretch"
