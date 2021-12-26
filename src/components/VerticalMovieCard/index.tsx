@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, ScrollView } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
 import { styles } from "./styles";
@@ -10,12 +10,14 @@ import {
   RectButton,
 } from "react-native-gesture-handler";
 import { MovieDTO } from "../../dtos/MovieDTO";
+import { GenreIcon } from "../GenreIcon";
+import { getGenreNames } from "../../utils/getGenreNames";
 
-interface MovieData extends BorderlessButtonProps {
+interface MovieProps extends BorderlessButtonProps {
   data: MovieDTO;
 }
 
-export function VerticalMovieCard({ data, ...rest }: MovieData) {
+export function VerticalMovieCard({ data, ...rest }: MovieProps) {
   return (
     <BorderlessButton style={styles.container} activeOpacity={0.9} {...rest}>
       <Image
@@ -28,10 +30,18 @@ export function VerticalMovieCard({ data, ...rest }: MovieData) {
 
       <View style={styles.movieInfo}>
         <Text style={styles.title}>{data.title}</Text>
+
         <View style={styles.rating}>
           <Feather name="star" size={12} color={theme.colors.yellow} />
           <Text style={styles.ratingText}>{data.vote_average}/10 IMDb</Text>
         </View>
+
+        <View style={styles.genres}>
+          {data.genre_ids.slice(0, 2).map((id) => (
+            <GenreIcon key={id} title={getGenreNames(id)} />
+          ))}
+        </View>
+
         <View style={styles.duration}>
           <Feather name="clock" size={9} />
           <Text style={styles.durationText}>1h 47m</Text>

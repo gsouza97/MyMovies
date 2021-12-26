@@ -46,6 +46,13 @@ export const styles = StyleSheet.create({
     marginBottom: 8,
   },
 
+  genres: {
+    flexDirection: "row",
+    alignItems: "center",
+
+    marginBottom: 8,
+  },
+
   duration: {
     flexDirection: "row",
     alignItems: "center",
