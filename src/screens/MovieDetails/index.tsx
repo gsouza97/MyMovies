@@ -20,6 +20,7 @@ import {
   useNavigation,
   useRoute,
 } from "@react-navigation/native";
+import { getGenreNames } from "../../utils/getGenreNames";
 
 interface Params {
   movie: MovieDTO;
@@ -68,11 +69,13 @@ export function MovieDetails() {
             <Feather name="flag" size={22} />
           </View>
 
-          <View style={styles.genres}>
-            <GenreIcon title="adventure" />
-            <GenreIcon title="adventure" />
-            <GenreIcon title="adventure" />
-          </View>
+          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+            <View style={styles.genres}>
+              {movie.genre_ids.map((id) => (
+                <GenreIcon key={id} title={getGenreNames(id)} />
+              ))}
+            </View>
+          </ScrollView>
 
           <View style={styles.movieInfo}>
             <View>

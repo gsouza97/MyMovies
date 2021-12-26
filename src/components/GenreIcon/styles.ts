@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
 
   title: {
     fontFamily: theme.fonts.movie_title,
-    fontSize: 8,
+    fontSize: 10,
     color: theme.colors.text_blue,
 
     textTransform: "uppercase",
