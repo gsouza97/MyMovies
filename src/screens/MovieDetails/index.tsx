@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   Image,
   ScrollView,
   StatusBar,
+  FlatList,
 } from "react-native";
 import { BackButton } from "../../components/BackButton";
 import { Feather } from "@expo/vector-icons";
@@ -21,19 +22,60 @@ import {
   useRoute,
 } from "@react-navigation/native";
 import { getGenreNames } from "../../utils/getGenreNames";
+import api from "../../services/api";
+import { HorizontalMovieCard } from "../../components/HorizontalMovieCard";
+import { Loading } from "../../components/Loading";
+import { CastCard } from "../../components/CastCard";
+import { CastDTO } from "../../dtos/CastDTO";
 
 interface Params {
   movie: MovieDTO;
 }
 
 export function MovieDetails() {
+  const [loading, setLoading] = useState(true);
+  const [relatedMovies, setRelatedMovies] = useState<MovieDTO[]>([]);
+  const [castData, setCastData] = useState<CastDTO[]>([]);
+
   const navigation: NavigationProp<ParamListBase> = useNavigation();
   const route = useRoute();
   const { movie } = route.params as Params;
+  const { API_KEY } = process.env;
 
   function handleBack() {
     navigation.goBack();
   }
+
+  async function getCast() {
+    try {
+      const response = await api.get(
+        `/${movie.id}/credits?api_key=${API_KEY}&language=en-US`
+      );
+      setCastData(response.data.cast);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function getRelatedMovies() {
+    try {
+      const response = await api.get(
+        `/${movie.id}/similar?api_key=${API_KEY}&language=en-US&page=1`
+      );
+      setRelatedMovies(response.data.results);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    getCast();
+    getRelatedMovies();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -99,18 +141,36 @@ export function MovieDetails() {
             <Text style={styles.descriptionText}>{movie.overview}</Text>
           </View>
 
+          <View style={styles.cast}>
+            <Text style={styles.castTitle}>Cast</Text>
+            {loading ? (
+              <Loading />
+            ) : (
+              <FlatList
+                data={castData.slice(0, 15)}
+                keyExtractor={(item) => String(item.id)}
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{ paddingLeft: 24 }}
+                renderItem={({ item }) => <CastCard data={item} />}
+              />
+            )}
+          </View>
+
           <View style={styles.relatedMovies}>
             <Text style={styles.relatedTitle}>Related Movies</Text>
-            {/* <FlatList
-              data={[1, 2, 3, 4, 5, 6, 7]}
-              keyExtractor={(item) => String(item)}
-              horizontal={true}
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={{ paddingLeft: 24 }}
-              renderItem={({ item }) => (
-                <HorizontalMovieCard data={movieData} />
-              )}
-            /> */}
+            {loading ? (
+              <Loading />
+            ) : (
+              <FlatList
+                data={relatedMovies}
+                keyExtractor={(item) => String(item.id)}
+                horizontal={true}
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{ paddingLeft: 24 }}
+                renderItem={({ item }) => <HorizontalMovieCard data={item} />}
+              />
+            )}
           </View>
         </ScrollView>
       </View>

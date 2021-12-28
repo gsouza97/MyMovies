@@ -131,6 +131,19 @@ export const styles = StyleSheet.create({
     color: theme.colors.text_grey,
   },
 
+  cast: {
+    marginBottom: 24,
+  },
+
+  castTitle: {
+    fontFamily: theme.fonts.title,
+    fontSize: 16,
+    color: theme.colors.text_title,
+
+    marginBottom: 8,
+    paddingHorizontal: 24,
+  },
+
   relatedMovies: {},
 
   relatedTitle: {
