@@ -47,7 +47,7 @@ export function MovieDetails() {
     navigation.goBack();
   }
 
-  function handleNavigateMovieDetails(movie: MovieDTO) {
+  function handleNavigateRelatedMovieDetails(movie: MovieDTO) {
     navigation.navigate("MovieDetails", { movie });
   }
 
@@ -194,7 +194,7 @@ export function MovieDetails() {
                   renderItem={({ item }) => (
                     <HorizontalMovieCard
                       data={item}
-                      onPress={() => handleNavigateMovieDetails(item)}
+                      onPress={() => handleNavigateRelatedMovieDetails(item)}
                     />
                   )}
                 />
