@@ -7,6 +7,7 @@ import {
   ScrollView,
   StatusBar,
   FlatList,
+  Alert,
 } from "react-native";
 import { BackButton } from "../../components/BackButton";
 import { Feather } from "@expo/vector-icons";
@@ -47,34 +48,45 @@ export function MovieDetails() {
   }
 
   async function getCast() {
-    try {
-      const response = await api.get(
-        `/${movie.id}/credits?api_key=${API_KEY}&language=en-US`
-      );
-      setCastData(response.data.cast);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
+    // try {
+    const response = await api.get(
+      `/${movie.id}/credits?api_key=${API_KEY}&language=en-US`
+    );
+    setCastData(response.data.cast);
+    // } catch (error) {
+    //   console.log(error);
+    // } finally {
+    //   setLoading(false);
+    // }
   }
 
   async function getRelatedMovies() {
-    try {
-      const response = await api.get(
-        `/${movie.id}/similar?api_key=${API_KEY}&language=en-US&page=1`
-      );
-      setRelatedMovies(response.data.results);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
+    // try {
+    const response = await api.get(
+      `/${movie.id}/similar?api_key=${API_KEY}&language=en-US&page=1`
+    );
+    setRelatedMovies(response.data.results);
+    // } catch (error) {
+    //   console.log(error);
+    // } finally {
+    //   setLoading(false);
+    // }
   }
 
   useEffect(() => {
-    getCast();
-    getRelatedMovies();
+    async function getCastAndRelated() {
+      try {
+        await getCast();
+        await getRelatedMovies();
+      } catch (error) {
+        console.log(error);
+        Alert.alert("Um erro inesperado ocorreu.", String(error));
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    getCastAndRelated();
   }, []);
 
   return (
@@ -144,10 +156,10 @@ export function MovieDetails() {
           <View style={styles.cast}>
             <Text style={styles.castTitle}>Cast</Text>
             {loading ? (
-              <Loading />
+              <Loading size="small" />
             ) : (
               <FlatList
-                data={castData.slice(0, 15)}
+                data={castData.slice(0, 20)}
                 keyExtractor={(item) => String(item.id)}
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
@@ -160,7 +172,7 @@ export function MovieDetails() {
           <View style={styles.relatedMovies}>
             <Text style={styles.relatedTitle}>Related Movies</Text>
             {loading ? (
-              <Loading />
+              <Loading size="small" />
             ) : (
               <FlatList
                 data={relatedMovies}

@@ -14,11 +14,16 @@ export function CastCard({ data }: CastProps) {
       <Image
         resizeMode="cover"
         style={styles.actorImage}
-        source={{
-          uri: `https://image.tmdb.org/t/p/w500${data.profile_path}`,
-        }}
+        source={
+          data.profile_path
+            ? { uri: `https://image.tmdb.org/t/p/w500${data.profile_path}` }
+            : require("../../assets/noImageAvailable.png")
+        }
       />
       <Text style={styles.actorName}>{data.name}</Text>
     </View>
   );
+}
+
+{
 }
