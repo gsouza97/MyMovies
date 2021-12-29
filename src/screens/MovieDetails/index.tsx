@@ -124,7 +124,7 @@ export function MovieDetails() {
                 <View style={styles.rating}>
                   <Feather name="star" size={12} color={theme.colors.yellow} />
                   <Text style={styles.ratingText}>
-                    {movie.vote_average}/10 IMDb
+                    {movie.vote_average.toFixed(1)}/10 IMDb
                   </Text>
                 </View>
               </View>
