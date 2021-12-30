@@ -15,10 +15,10 @@ export function TabRoutes() {
         headerShown: false,
         tabBarActiveTintColor: theme.colors.text_title,
         tabBarInactiveTintColor: theme.colors.text_grey,
-        tabBarLabelPosition: "beside-icon",
+        tabBarLabelPosition: "below-icon",
         tabBarStyle: {
           height: 80,
-          paddingVertical: Platform.OS === "ios" ? 20 : 0,
+          paddingVertical: Platform.OS === "ios" ? 10 : 0,
         },
       }}
     >
