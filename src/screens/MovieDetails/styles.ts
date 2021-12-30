@@ -131,6 +131,12 @@ export const styles = StyleSheet.create({
     color: theme.colors.text_grey,
   },
 
+  reviews: {
+    width: "100%",
+
+    paddingHorizontal: 24,
+  },
+
   cast: {
     marginBottom: 24,
   },
@@ -144,7 +150,9 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 24,
   },
 
-  relatedMovies: {},
+  relatedMovies: {
+    marginBottom: 24,
+  },
 
   relatedTitle: {
     fontFamily: theme.fonts.title,
@@ -153,5 +161,13 @@ export const styles = StyleSheet.create({
 
     marginBottom: 8,
     paddingHorizontal: 24,
+  },
+
+  noReviewsText: {
+    fontFamily: theme.fonts.description,
+    fontSize: 14,
+    color: theme.colors.text_grey,
+
+    alignSelf: "center",
   },
 });
