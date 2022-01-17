@@ -8,6 +8,12 @@ export default {
     text_blue: "#88A4E8",
     text_grey: "#9C9C9C",
     text_title: "#110E47",
+
+    button_white: "#FFFFFF",
+    button_dark: "#000000",
+
+    text_white: "#FFFFFF",
+    text_dark: "#000000",
   },
 
   fonts: {

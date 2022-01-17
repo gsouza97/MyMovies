@@ -12,6 +12,7 @@ import {
 
 import { Routes } from "./src/routes";
 import AppLoading from "expo-app-loading";
+import { SignIn } from "./src/screens/SignIn";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -25,5 +26,5 @@ export default function App() {
     return <AppLoading />;
   }
 
-  return <Routes />;
+  return <SignIn />;
 }
