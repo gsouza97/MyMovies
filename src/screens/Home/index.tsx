@@ -4,7 +4,14 @@ import {
   useNavigation,
 } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { View, SafeAreaView, Text, FlatList, Alert } from "react-native";
+import {
+  View,
+  SafeAreaView,
+  Text,
+  FlatList,
+  Alert,
+  StatusBar,
+} from "react-native";
 import { Header } from "../../components/Header";
 import { HorizontalMovieCard } from "../../components/HorizontalMovieCard";
 import { Loading } from "../../components/Loading";
@@ -81,6 +88,11 @@ export function Home() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor="transparent"
+        translucent
+      />
       <Header />
 
       {loading ? (
