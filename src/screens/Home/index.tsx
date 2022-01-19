@@ -94,7 +94,7 @@ export function Home() {
       {loading ? (
         <Loading />
       ) : (
-        <ScrollView style={styles.body} nestedScrollEnabled>
+        <View style={styles.body}>
           <View style={styles.nowShowing}>
             <View style={styles.header}>
               <Text style={styles.title}>Now Showing</Text>
@@ -106,7 +106,7 @@ export function Home() {
               keyExtractor={(_, index) => String(index)}
               horizontal={true}
               onEndReached={fetchNowShowingMovies}
-              onEndReachedThreshold={0.2}
+              onEndReachedThreshold={0.15}
               ListFooterComponent={<Loading size="small" />}
               ListFooterComponentStyle={{
                 height: 212,
@@ -129,10 +129,13 @@ export function Home() {
               data={popularMovies}
               keyExtractor={(_, index) => String(index)}
               showsVerticalScrollIndicator={false}
-              contentContainerStyle={{ paddingLeft: 24 }}
+              contentContainerStyle={{ paddingHorizontal: 24 }}
               onEndReached={fetchPopularMovies}
-              onEndReachedThreshold={0.0001}
+              onEndReachedThreshold={0.15}
               ListFooterComponent={<Loading size="small" />}
+              ListFooterComponentStyle={{
+                padding: 10,
+              }}
               renderItem={({ item }) => (
                 <VerticalMovieCard
                   data={item}
@@ -141,7 +144,7 @@ export function Home() {
               )}
             />
           </View>
-        </ScrollView>
+        </View>
       )}
     </SafeAreaView>
   );

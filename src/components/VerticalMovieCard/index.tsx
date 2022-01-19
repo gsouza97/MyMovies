@@ -22,7 +22,7 @@ export function VerticalMovieCard({ data, ...rest }: MovieProps) {
     <BorderlessButton style={styles.container} activeOpacity={0.9} {...rest}>
       <Image
         style={styles.poster}
-        resizeMode="contain"
+        resizeMode="cover"
         source={{
           uri: `https://image.tmdb.org/t/p/w500${data.poster_path}`,
         }}
