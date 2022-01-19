@@ -1,4 +1,10 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as AppleAuthentication from "expo-apple-authentication";
 import * as AuthSession from "expo-auth-session";
@@ -18,6 +24,7 @@ interface AuthContextData {
   user: User;
   loginWithApple(): Promise<void>;
   loginWithGoogle(): Promise<void>;
+  logout(): Promise<void>;
 }
 
 const { CLIENT_ID } = process.env;
@@ -27,6 +34,7 @@ const AuthContext = createContext({} as AuthContextData);
 
 function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User>({} as User);
+  const [loading, setLoading] = useState(true);
   const userStorageKey = "@mymovies:user";
 
   async function loginWithApple() {
@@ -93,9 +101,23 @@ function AuthProvider({ children }: AuthProviderProps) {
     await AsyncStorage.removeItem(userStorageKey);
   }
 
+  useEffect(() => {
+    async function loadUserFromStorage() {
+      const storagedUser = await AsyncStorage.getItem(userStorageKey);
+
+      if (storagedUser) {
+        const userLogged = JSON.parse(storagedUser) as User;
+        setUser(userLogged);
+      }
+      setLoading(false);
+    }
+
+    loadUserFromStorage();
+  }, []);
+
   return (
     <AuthContext.Provider
-      value={{ user: user, loginWithApple, loginWithGoogle }}
+      value={{ user: user, loginWithApple, loginWithGoogle, logout }}
     >
       {children}
     </AuthContext.Provider>
