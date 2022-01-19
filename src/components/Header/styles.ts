@@ -5,11 +5,18 @@ export const styles = StyleSheet.create({
   container: {
     width: "100%",
     height: 60,
+    paddingHorizontal: 24,
+    flexDirection: "row",
 
-    backgroundColor: theme.colors.background_color,
-
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
+  },
+
+  userImage: {
+    height: 34,
+    width: 34,
+
+    borderRadius: 17,
   },
 
   title: {
