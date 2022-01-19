@@ -7,12 +7,12 @@ export const styles = StyleSheet.create({
   },
 
   header: {
-    height: "48%",
+    height: "50%",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
 
     marginTop: 30,
-    marginBottom: 110,
+    marginBottom: 130,
   },
 
   text: {

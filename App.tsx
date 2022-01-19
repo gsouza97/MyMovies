@@ -29,7 +29,7 @@ export default function App() {
 
   return (
     <AuthProvider>
-      <SignIn />
+      <Routes />
     </AuthProvider>
   );
 }
