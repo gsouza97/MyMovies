@@ -88,6 +88,11 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
+  async function logout() {
+    setUser({} as User);
+    await AsyncStorage.removeItem(userStorageKey);
+  }
+
   return (
     <AuthContext.Provider
       value={{ user: user, loginWithApple, loginWithGoogle }}
