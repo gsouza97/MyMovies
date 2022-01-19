@@ -10,21 +10,21 @@ interface ReviewProps {
 }
 
 export function ReviewItem({ review }: ReviewProps) {
+  const avatarPathFormatted = review.author_details.avatar_path.replace(
+    "/http",
+    "http"
+  );
+
   return (
     <View style={styles.container}>
       <View style={styles.user}>
         <Image
           style={styles.userImage}
-          source={
-            review.author_details.avatar_path
-              ? {
-                  uri: `${review.author_details.avatar_path.replace(
-                    "/http",
-                    "http"
-                  )}`,
-                }
-              : require("../../assets/userAvatar.png")
-          }
+          source={{
+            uri: review.author_details.avatar_path.startsWith("/http")
+              ? `${avatarPathFormatted}`
+              : `https://ui-avatars.com/api/?name=${review.author}&length=1`,
+          }}
         />
 
         <Text style={styles.username}>{review.author}</Text>
