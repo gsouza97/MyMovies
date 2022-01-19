@@ -10,10 +10,9 @@ interface ReviewProps {
 }
 
 export function ReviewItem({ review }: ReviewProps) {
-  const avatarPathFormatted = review.author_details.avatar_path.replace(
-    "/http",
-    "http"
-  );
+  const avatarPathFormatted =
+    review.author_details.avatar_path &&
+    review.author_details.avatar_path.replace("/http", "http");
 
   return (
     <View style={styles.container}>
@@ -21,9 +20,11 @@ export function ReviewItem({ review }: ReviewProps) {
         <Image
           style={styles.userImage}
           source={{
-            uri: review.author_details.avatar_path.startsWith("/http")
-              ? `${avatarPathFormatted}`
-              : `https://ui-avatars.com/api/?name=${review.author}&length=1`,
+            uri:
+              review.author_details.avatar_path &&
+              review.author_details.avatar_path.startsWith("/http")
+                ? `${avatarPathFormatted}`
+                : `https://ui-avatars.com/api/?name=${review.author}&length=1`,
           }}
         />
 
