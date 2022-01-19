@@ -11,6 +11,7 @@ import {
   FlatList,
   Alert,
   StatusBar,
+  ScrollView,
 } from "react-native";
 import { Header } from "../../components/Header";
 import { HorizontalMovieCard } from "../../components/HorizontalMovieCard";
@@ -21,21 +22,13 @@ import api from "../../services/api";
 
 import { styles } from "./styles";
 
-interface MoviesProps {
-  dates: {
-    maximum: string;
-    minimum: string;
-  };
-  page: number;
-  results: MovieDTO[];
-  total_pages: number;
-  total_results: number;
-}
-
 export function Home() {
-  const [nowShowingMovies, setNowShowingMovies] = useState({} as MoviesProps);
-  const [popularMovies, setPopularMovies] = useState({} as MoviesProps);
+  const [nowShowingMovies, setNowShowingMovies] = useState([] as MovieDTO[]);
+  const [popularMovies, setPopularMovies] = useState([] as MovieDTO[]);
   const [loading, setLoading] = useState(true);
+
+  const [nowShowingPage, setNowShowingPage] = useState(1);
+  const [popularPage, setPopularPage] = useState(1);
 
   const navigation: NavigationProp<ParamListBase> = useNavigation();
   const { API_KEY } = process.env;
@@ -47,9 +40,10 @@ export function Home() {
   async function fetchNowShowingMovies() {
     // try {
     const response = await api.get(
-      `/now_playing?api_key=${API_KEY}&language=en-US&page=1`
+      `/now_playing?api_key=${API_KEY}&language=en-US&page=${nowShowingPage}`
     );
-    setNowShowingMovies(response.data);
+    setNowShowingMovies([...nowShowingMovies, ...response.data.results]);
+    setNowShowingPage(nowShowingPage + 1);
     // } catch (error) {
     //   console.log(error);
     // } finally {
@@ -60,9 +54,11 @@ export function Home() {
   async function fetchPopularMovies() {
     // try {
     const response = await api.get(
-      `/popular?api_key=${API_KEY}&language=en-US&page=1`
+      `/popular?api_key=${API_KEY}&language=en-US&page=${popularPage}`
     );
-    setPopularMovies(response.data);
+    setPopularMovies([...popularMovies, ...response.data.results]);
+    setPopularPage(popularPage + 1);
+
     // } catch (error) {
     //   console.log(error);
     // // } finally {
@@ -98,7 +94,7 @@ export function Home() {
       {loading ? (
         <Loading />
       ) : (
-        <View style={styles.body}>
+        <ScrollView style={styles.body} nestedScrollEnabled>
           <View style={styles.nowShowing}>
             <View style={styles.header}>
               <Text style={styles.title}>Now Showing</Text>
@@ -106,9 +102,16 @@ export function Home() {
             <FlatList
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={{ paddingLeft: 24 }}
-              data={nowShowingMovies.results}
-              keyExtractor={(item) => String(item.id)}
+              data={nowShowingMovies}
+              keyExtractor={(_, index) => String(index)}
               horizontal={true}
+              onEndReached={fetchNowShowingMovies}
+              onEndReachedThreshold={0.2}
+              ListFooterComponent={<Loading size="small" />}
+              ListFooterComponentStyle={{
+                height: 212,
+                padding: 10,
+              }}
               renderItem={({ item }) => (
                 <HorizontalMovieCard
                   data={item}
@@ -123,10 +126,13 @@ export function Home() {
               <Text style={styles.title}>Popular</Text>
             </View>
             <FlatList
-              data={popularMovies.results}
-              keyExtractor={(item) => String(item.id)}
+              data={popularMovies}
+              keyExtractor={(_, index) => String(index)}
               showsVerticalScrollIndicator={false}
               contentContainerStyle={{ paddingLeft: 24 }}
+              onEndReached={fetchPopularMovies}
+              onEndReachedThreshold={0.0001}
+              ListFooterComponent={<Loading size="small" />}
               renderItem={({ item }) => (
                 <VerticalMovieCard
                   data={item}
@@ -135,7 +141,7 @@ export function Home() {
               )}
             />
           </View>
-        </View>
+        </ScrollView>
       )}
     </SafeAreaView>
   );
