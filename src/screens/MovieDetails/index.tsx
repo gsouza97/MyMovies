@@ -31,6 +31,7 @@ import { CastDTO } from "../../dtos/CastDTO";
 import { ReviewItem } from "../../components/ReviewItem";
 import { Divider } from "../../components/Divider";
 import { ReviewDTO } from "../../dtos/ReviewDTO";
+import { getLanguageName } from "../../utils/getLanguageName";
 
 interface Params {
   movie: MovieDTO;
@@ -234,7 +235,9 @@ export function MovieDetails() {
 
               <View>
                 <Text style={styles.infoTitle}>Language</Text>
-                <Text style={styles.infoSubtitle}>English</Text>
+                <Text style={styles.infoSubtitle}>
+                  {getLanguageName(movie.original_language)}
+                </Text>
               </View>
 
               <View>
