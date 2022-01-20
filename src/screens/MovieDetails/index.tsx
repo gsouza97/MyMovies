@@ -10,7 +10,7 @@ import {
   Alert,
 } from "react-native";
 import { BackButton } from "../../components/BackButton";
-import { Ionicons, Feather } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 
 import { styles } from "./styles";
 import { GenreIcon } from "../../components/GenreIcon";
@@ -31,6 +31,7 @@ import { CastDTO } from "../../dtos/CastDTO";
 import { ReviewItem } from "../../components/ReviewItem";
 import { ReviewDTO } from "../../dtos/ReviewDTO";
 import { getLanguageName } from "../../utils/getLanguageName";
+import { BorderlessButton } from "react-native-gesture-handler";
 
 interface Params {
   movie: MovieDTO;
@@ -146,7 +147,9 @@ export function MovieDetails() {
                   </Text>
                 </View>
               </View>
-              <Feather name="flag" size={22} />
+              <BorderlessButton>
+                <Ionicons name="bookmark-outline" size={22} />
+              </BorderlessButton>
             </View>
 
             <ScrollView
