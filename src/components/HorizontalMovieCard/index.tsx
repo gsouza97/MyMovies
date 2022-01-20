@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Image } from "react-native";
-import { Feather } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 
 import { styles } from "./styles";
 import theme from "../../styles/theme";
@@ -28,7 +28,7 @@ export function HorizontalMovieCard({ data, ...rest }: MovieData) {
       <View style={styles.footer}>
         <Text style={styles.title}>{data.title}</Text>
         <View style={styles.rating}>
-          <Feather name="star" size={12} color={theme.colors.yellow} />
+          <Ionicons name="star" size={12} color={theme.colors.yellow} />
           <Text style={styles.ratingText}>
             {data.vote_average.toFixed(1)}/10 IMDb
           </Text>

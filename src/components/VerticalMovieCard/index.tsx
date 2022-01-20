@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Image, ScrollView } from "react-native";
-import { Feather } from "@expo/vector-icons";
+import { Ionicons, Feather } from "@expo/vector-icons";
 
 import { styles } from "./styles";
 import theme from "../../styles/theme";
@@ -32,7 +32,7 @@ export function VerticalMovieCard({ data, ...rest }: MovieProps) {
         <Text style={styles.title}>{data.title}</Text>
 
         <View style={styles.rating}>
-          <Feather name="star" size={12} color={theme.colors.yellow} />
+          <Ionicons name="star" size={12} color={theme.colors.yellow} />
           <Text style={styles.ratingText}>{data.vote_average}/10 IMDb</Text>
         </View>
 
