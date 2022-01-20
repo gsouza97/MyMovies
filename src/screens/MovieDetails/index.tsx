@@ -100,6 +100,25 @@ export function MovieDetails() {
     // }
   }
 
+  async function getRuntime() {
+    // try {
+    const response = await api.get(`/${movie.id}?api_key=${API_KEY}`);
+    const runtime = response.data.runtime;
+    function runtimeFormatted(runtime: number) {
+      const hour = (runtime / 60).toFixed(0);
+      const minute = (runtime % 60).toFixed(0);
+      return `${hour}h ${minute}min `;
+    }
+
+    movie.runtime = runtimeFormatted(runtime);
+
+    // } catch (error) {
+    //   console.log(error);
+    // } finally {
+    //   setLoading(false);
+    // }
+  }
+
   useEffect(() => {
     async function getCastAndRelated() {
       setLoading(true);
@@ -107,6 +126,7 @@ export function MovieDetails() {
         await getCast();
         await getRelatedMovies();
         await getReviews();
+        await getRuntime();
       } catch (error) {
         console.log(error);
         Alert.alert("Um erro inesperado ocorreu.", String(error));
@@ -171,7 +191,7 @@ export function MovieDetails() {
             <View style={styles.movieInfo}>
               <View>
                 <Text style={styles.infoTitle}>Length</Text>
-                <Text style={styles.infoSubtitle}>2h 28min</Text>
+                <Text style={styles.infoSubtitle}>{movie.runtime}</Text>
               </View>
 
               <View>
