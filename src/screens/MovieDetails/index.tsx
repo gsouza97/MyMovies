@@ -48,6 +48,11 @@ export function MovieDetails() {
   const { movie } = route.params as Params;
   const { API_KEY } = process.env;
 
+  const formattedDate = new Date(movie.release_date).toLocaleDateString(
+    "en-US",
+    { day: "numeric", month: "long", year: "numeric" }
+  );
+
   function handleBack() {
     navigation.goBack();
   }
@@ -177,8 +182,8 @@ export function MovieDetails() {
               </View>
 
               <View>
-                <Text style={styles.infoTitle}>Rating</Text>
-                <Text style={styles.infoSubtitle}>PG-13</Text>
+                <Text style={styles.infoTitle}>Release Date</Text>
+                <Text style={styles.infoSubtitle}>{formattedDate}</Text>
               </View>
             </View>
 
