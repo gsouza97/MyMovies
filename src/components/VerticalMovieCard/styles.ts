@@ -53,12 +53,12 @@ export const styles = StyleSheet.create({
     marginBottom: 8,
   },
 
-  duration: {
+  popularity: {
     flexDirection: "row",
     alignItems: "center",
   },
 
-  durationText: {
+  popularityText: {
     fontFamily: theme.fonts.description,
     fontSize: 12,
 

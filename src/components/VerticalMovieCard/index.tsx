@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Image, ScrollView } from "react-native";
-import { Ionicons, Feather } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 
 import { styles } from "./styles";
 import theme from "../../styles/theme";
@@ -42,9 +42,11 @@ export function VerticalMovieCard({ data, ...rest }: MovieProps) {
           ))}
         </View>
 
-        <View style={styles.duration}>
-          <Feather name="clock" size={9} />
-          <Text style={styles.durationText}>1h 47m</Text>
+        <View style={styles.popularity}>
+          <Ionicons name="people" size={12} />
+          <Text style={styles.popularityText}>
+            {data.vote_count.toFixed(0)}
+          </Text>
         </View>
       </View>
     </BorderlessButton>
