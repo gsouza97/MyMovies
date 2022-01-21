@@ -45,7 +45,7 @@ export function VerticalMovieCard({ data, ...rest }: MovieProps) {
         <View style={styles.popularity}>
           <Ionicons name="people" size={12} />
           <Text style={styles.popularityText}>
-            {data.vote_count.toFixed(0)}
+            {data.popularity.toFixed(0)}
           </Text>
         </View>
       </View>

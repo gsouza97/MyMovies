@@ -4,7 +4,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import theme from "../styles/theme";
 import { Home } from "../screens/Home";
-import { Rated } from "../screens/Rated";
+import { Search } from "../screens/Search";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -33,7 +33,7 @@ export function TabRoutes() {
       />
       <Screen
         name="Search"
-        component={Rated}
+        component={Search}
         options={{
           tabBarIcon: ({ size, color }) => (
             <MaterialIcons name="search" size={size} color={color} />
