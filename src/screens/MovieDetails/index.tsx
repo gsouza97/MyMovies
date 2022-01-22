@@ -64,7 +64,7 @@ export function MovieDetails() {
   async function getCast() {
     // try {
     const response = await api.get(
-      `/${movie.id}/credits?api_key=${API_KEY}&language=en-US`
+      `/movie/${movie.id}/credits?api_key=${API_KEY}&language=en-US`
     );
     setCastData(response.data.cast);
     // } catch (error) {
@@ -77,7 +77,7 @@ export function MovieDetails() {
   async function getRelatedMovies() {
     // try {
     const response = await api.get(
-      `/${movie.id}/similar?api_key=${API_KEY}&language=en-US&page=1`
+      `/movie/${movie.id}/similar?api_key=${API_KEY}&language=en-US&page=1`
     );
     setRelatedMovies(response.data.results);
     // } catch (error) {
@@ -90,7 +90,7 @@ export function MovieDetails() {
   async function getReviews() {
     // try {
     const response = await api.get(
-      `/${movie.id}/reviews?api_key=${API_KEY}&language=en-US&page=1`
+      `/movie/${movie.id}/reviews?api_key=${API_KEY}&language=en-US&page=1`
     );
     setReviews(response.data.results);
     // } catch (error) {
@@ -102,7 +102,7 @@ export function MovieDetails() {
 
   async function getRuntime() {
     // try {
-    const response = await api.get(`/${movie.id}?api_key=${API_KEY}`);
+    const response = await api.get(`/movie/${movie.id}?api_key=${API_KEY}`);
     const runtime = response.data.runtime;
     function runtimeFormatted(runtime: number) {
       const hour = (runtime / 60).toFixed(0);

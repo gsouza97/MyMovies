@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   StatusBar,
   Keyboard,
   FlatList,
+  Alert,
 } from "react-native";
 import {
   RectButton,
@@ -17,27 +18,52 @@ import { Ionicons } from "@expo/vector-icons";
 import { styles } from "./styles";
 import theme from "../../styles/theme";
 import { VerticalMovieCard } from "../../components/VerticalMovieCard";
+import { MovieDTO } from "../../dtos/MovieDTO";
+import api from "../../services/api";
+import { Loading } from "../../components/Loading";
+import {
+  NavigationProp,
+  ParamListBase,
+  useNavigation,
+} from "@react-navigation/native";
 
 export function Search() {
-  const data = [
-    {
-      adult: false,
-      backdrop_path: "/c6H7Z4u73ir3cIoCteuhJh7UCAR.jpg",
-      genre_ids: [28, 12, 14, 878],
-      id: 524434,
-      original_language: "en",
-      original_title: "Eternals",
-      overview:
-        "The Eternals are a team of ancient aliens who have been living on Earth in secret for thousands of years. When an unexpected tragedy forces them out of the shadows, they are forced to reunite against mankind’s most ancient enemy, the Deviants.",
-      popularity: 10421.733,
-      poster_path: "/b6qUu00iIIkXX13szFy7d0CyNcg.jpg",
-      release_date: "2021-11-03",
-      title: "Eternals",
-      video: false,
-      vote_average: 7.2,
-      vote_count: 2982,
-    },
-  ];
+  const [data, setData] = useState<MovieDTO[]>([]);
+  const [inputText, setInputText] = useState("");
+  const [loading, setLoading] = useState(false);
+  const inputRef = useRef<TextInput>(null);
+  const navigation: NavigationProp<ParamListBase> = useNavigation();
+
+  const { API_KEY } = process.env;
+
+  async function searchMovies(text: string) {
+    try {
+      setLoading(true);
+
+      if (text.trim() !== "") {
+        const response = await api.get(
+          `search/movie?api_key=${API_KEY}&query=${text}`
+        );
+
+        setData(response.data.results);
+      }
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Um erro inesperado ocorreu.", String(error));
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function handleSearchMovies() {
+    searchMovies(inputText);
+
+    inputRef.current?.blur();
+  }
+
+  function handleNavigateMovieDetails(movie: MovieDTO) {
+    navigation.navigate("MovieDetails", { movie });
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -54,13 +80,22 @@ export function Search() {
         <View style={styles.search}>
           <TextInput
             style={styles.inputField}
+            ref={inputRef}
             placeholder="Search for a movie here"
             autoCapitalize="none"
             autoCorrect={false}
             returnKeyType="search"
             placeholderTextColor={theme.colors.text_grey}
+            value={inputText}
+            onChangeText={setInputText}
+            onSubmitEditing={handleSearchMovies}
+            autoFocus
           />
-          <RectButton style={styles.inputButton}>
+          <RectButton
+            style={styles.inputButton}
+            onPress={handleSearchMovies}
+            enabled={inputText.trim() !== ""}
+          >
             <Ionicons
               name="search"
               size={20}
@@ -71,10 +106,10 @@ export function Search() {
       </TouchableWithoutFeedback>
 
       <View style={styles.movieList}>
-        {!data.length ? (
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <Text style={styles.noMovieText}>Nothing to show</Text>
-          </TouchableWithoutFeedback>
+        {loading ? (
+          <Loading size="small" />
+        ) : !data.length ? (
+          <Text style={styles.noMovieText}>Nothing to show</Text>
         ) : (
           <FlatList
             data={data}
@@ -90,7 +125,12 @@ export function Search() {
             //   padding: 10,
             // }}
             renderItem={({ item }) => (
-              <VerticalMovieCard data={item} onPress={() => {}} />
+              <VerticalMovieCard
+                data={item}
+                onPress={() => {
+                  handleNavigateMovieDetails(item);
+                }}
+              />
             )}
           />
         )}

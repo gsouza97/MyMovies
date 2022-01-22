@@ -40,7 +40,7 @@ export function Home() {
   async function fetchNowShowingMovies() {
     // try {
     const response = await api.get(
-      `/now_playing?api_key=${API_KEY}&language=en-US&page=${nowShowingPage}`
+      `/movie/now_playing?api_key=${API_KEY}&language=en-US&page=${nowShowingPage}`
     );
     setNowShowingMovies([...nowShowingMovies, ...response.data.results]);
     setNowShowingPage(nowShowingPage + 1);
@@ -54,7 +54,7 @@ export function Home() {
   async function fetchPopularMovies() {
     // try {
     const response = await api.get(
-      `/popular?api_key=${API_KEY}&language=en-US&page=${popularPage}`
+      `/movie/popular?api_key=${API_KEY}&language=en-US&page=${popularPage}`
     );
     setPopularMovies([...popularMovies, ...response.data.results]);
     setPopularPage(popularPage + 1);
