@@ -4,7 +4,11 @@
     "slug": "movies",
     "scheme": "movies",
     "version": "1.0.0",
-    "assetBundlePatterns": ["**/*"]
+    "assetBundlePatterns": ["**/*"],
+    "splash": {
+      "image": "./assets/splash.png",
+      "backgroundColor": "#F2F2F2"
+    }
   },
   "name": "movies"
 }
