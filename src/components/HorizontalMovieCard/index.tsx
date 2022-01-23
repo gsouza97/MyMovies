@@ -26,7 +26,9 @@ export function HorizontalMovieCard({ data, ...rest }: MovieData) {
       />
 
       <View style={styles.footer}>
-        <Text style={styles.title}>{data.title}</Text>
+        <Text style={styles.title} numberOfLines={2}>
+          {data.title}
+        </Text>
         <View style={styles.rating}>
           <Ionicons name="star" size={12} color={theme.colors.yellow} />
           <Text style={styles.ratingText}>
