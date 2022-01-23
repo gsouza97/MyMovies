@@ -34,4 +34,11 @@ export const styles = StyleSheet.create({
 
     textAlign: "justify",
   },
+
+  readMoreText: {
+    flex: 1,
+    fontFamily: theme.fonts.movie_title,
+    fontSize: 12,
+    color: theme.colors.text_blue,
+  },
 });

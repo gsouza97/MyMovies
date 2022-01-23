@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Image } from "react-native";
 import { ReviewDTO } from "../../dtos/ReviewDTO";
 import { Divider } from "../Divider";
@@ -10,9 +10,31 @@ interface ReviewProps {
 }
 
 export function ReviewItem({ review }: ReviewProps) {
+  const [truncated, setTruncated] = useState(false);
+  const [formattedText, setFormattedText] = useState("");
+
   const avatarPathFormatted =
     review.author_details.avatar_path &&
     review.author_details.avatar_path.replace("/http", "http");
+
+  function verifyTruncated() {
+    if (review.content.length > 300) {
+      setTruncated(true);
+      setFormattedText(review.content.slice(0, 300) + "...");
+    } else {
+      setTruncated(false);
+      setFormattedText(review.content);
+    }
+  }
+
+  function handleSeeMore() {
+    setTruncated(false);
+    setFormattedText(review.content);
+  }
+
+  useEffect(() => {
+    verifyTruncated();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -30,7 +52,17 @@ export function ReviewItem({ review }: ReviewProps) {
 
         <Text style={styles.username}>{review.author}</Text>
       </View>
-      <Text style={styles.text}>{review.content}</Text>
+
+      <Text style={styles.text}>
+        {formattedText}
+        {truncated && (
+          <Text style={styles.readMoreText} onPress={handleSeeMore}>
+            {" "}
+            Read more
+          </Text>
+        )}
+      </Text>
+
       <Divider />
     </View>
   );
