@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import theme from "../styles/theme";
 import { Home } from "../screens/Home";
 import { Search } from "../screens/Search";
+import { isIphoneX } from "react-native-iphone-x-helper";
 
 const { Navigator, Screen } = createBottomTabNavigator();
 
@@ -17,8 +18,7 @@ export function TabRoutes() {
         tabBarInactiveTintColor: theme.colors.text_grey,
         tabBarLabelPosition: "below-icon",
         tabBarStyle: {
-          height: 80,
-          paddingVertical: Platform.OS === "ios" ? 10 : 0,
+          paddingTop: isIphoneX() ? 10 : 0,
         },
       }}
     >
