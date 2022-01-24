@@ -18,7 +18,7 @@ import { HorizontalMovieCard } from "../../components/HorizontalMovieCard";
 import { Loading } from "../../components/Loading";
 import { VerticalMovieCard } from "../../components/VerticalMovieCard";
 import { MovieDTO } from "../../dtos/MovieDTO";
-import api from "../../services/api";
+import moviesApi from "../../services/movies-api";
 
 import { styles } from "./styles";
 
@@ -31,39 +31,21 @@ export function Home() {
   const [popularPage, setPopularPage] = useState(1);
 
   const navigation: NavigationProp<ParamListBase> = useNavigation();
-  const { API_KEY } = process.env;
 
   function handleNavigateMovieDetails(movie: MovieDTO) {
     navigation.navigate("MovieDetails", { movie });
   }
 
   async function fetchNowShowingMovies() {
-    // try {
-    const response = await api.get(
-      `/movie/now_playing?api_key=${API_KEY}&language=en-US&page=${nowShowingPage}`
-    );
+    const response = await moviesApi.getNowShowingMovies(nowShowingPage);
     setNowShowingMovies([...nowShowingMovies, ...response.data.results]);
     setNowShowingPage(nowShowingPage + 1);
-    // } catch (error) {
-    //   console.log(error);
-    // } finally {
-    //   setLoading(false);
-    // }
   }
 
   async function fetchPopularMovies() {
-    // try {
-    const response = await api.get(
-      `/movie/popular?api_key=${API_KEY}&language=en-US&page=${popularPage}`
-    );
+    const response = await moviesApi.getPopularMovies(popularPage);
     setPopularMovies([...popularMovies, ...response.data.results]);
     setPopularPage(popularPage + 1);
-
-    // } catch (error) {
-    //   console.log(error);
-    // // } finally {
-    //   setLoading(false);
-    // }
   }
 
   useEffect(() => {
@@ -73,7 +55,7 @@ export function Home() {
         await fetchPopularMovies();
       } catch (error) {
         console.log(error);
-        Alert.alert("Um erro inesperado ocorreu.", String(error));
+        Alert.alert("Unable to get the movies", String(error));
       } finally {
         setLoading(false);
       }

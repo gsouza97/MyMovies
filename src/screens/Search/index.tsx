@@ -19,13 +19,13 @@ import { styles } from "./styles";
 import theme from "../../styles/theme";
 import { VerticalMovieCard } from "../../components/VerticalMovieCard";
 import { MovieDTO } from "../../dtos/MovieDTO";
-import api from "../../services/api";
 import { Loading } from "../../components/Loading";
 import {
   NavigationProp,
   ParamListBase,
   useNavigation,
 } from "@react-navigation/native";
+import moviesApi from "../../services/movies-api";
 
 export function Search() {
   const [data, setData] = useState<MovieDTO[]>([]);
@@ -34,22 +34,18 @@ export function Search() {
   const inputRef = useRef<TextInput>(null);
   const navigation: NavigationProp<ParamListBase> = useNavigation();
 
-  const { API_KEY } = process.env;
-
   async function searchMovies(text: string) {
     try {
       setLoading(true);
 
       if (text.trim() !== "") {
-        const response = await api.get(
-          `search/movie?api_key=${API_KEY}&query=${text}`
-        );
+        const response = await moviesApi.getMoviesSearch(inputText);
 
         setData(response.data.results);
       }
     } catch (error) {
       console.log(error);
-      Alert.alert("Um erro inesperado ocorreu.", String(error));
+      Alert.alert("An unexpected error has occurred", String(error));
     } finally {
       setLoading(false);
     }

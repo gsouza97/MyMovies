@@ -23,7 +23,6 @@ import {
   useRoute,
 } from "@react-navigation/native";
 import { getGenreNames } from "../../utils/getGenreNames";
-import api from "../../services/api";
 import { HorizontalMovieCard } from "../../components/HorizontalMovieCard";
 import { Loading } from "../../components/Loading";
 import { CastCard } from "../../components/CastCard";
@@ -32,6 +31,7 @@ import { ReviewItem } from "../../components/ReviewItem";
 import { ReviewDTO } from "../../dtos/ReviewDTO";
 import { getLanguageName } from "../../utils/getLanguageName";
 import { BorderlessButton } from "react-native-gesture-handler";
+import moviesApi from "../../services/movies-api";
 
 interface Params {
   movie: MovieDTO;
@@ -46,7 +46,6 @@ export function MovieDetails() {
   const navigation: NavigationProp<ParamListBase> = useNavigation();
   const route = useRoute();
   const { movie } = route.params as Params;
-  const { API_KEY } = process.env;
 
   const formattedDate = new Date(movie.release_date).toLocaleDateString(
     "en-US",
@@ -62,65 +61,34 @@ export function MovieDetails() {
   }
 
   async function getCast() {
-    // try {
-    const response = await api.get(
-      `/movie/${movie.id}/credits?api_key=${API_KEY}&language=en-US`
-    );
+    const response = await moviesApi.getMovieCast(movie.id);
     setCastData(response.data.cast);
-    // } catch (error) {
-    //   console.log(error);
-    // } finally {
-    //   setLoading(false);
-    // }
   }
 
   async function getRelatedMovies() {
-    // try {
-    const response = await api.get(
-      `/movie/${movie.id}/similar?api_key=${API_KEY}&language=en-US&page=1`
-    );
+    const response = await moviesApi.getRelatedMovies(movie.id);
     setRelatedMovies(response.data.results);
-    // } catch (error) {
-    //   console.log(error);
-    // } finally {
-    //   setLoading(false);
-    // }
   }
 
   async function getReviews() {
-    // try {
-    const response = await api.get(
-      `/movie/${movie.id}/reviews?api_key=${API_KEY}&language=en-US&page=1`
-    );
+    const response = await moviesApi.getMovieReviews(movie.id);
     setReviews(response.data.results);
-    // } catch (error) {
-    //   console.log(error);
-    // } finally {
-    //   setLoading(false);
-    // }
   }
 
   async function getRuntime() {
-    // try {
-    const response = await api.get(`/movie/${movie.id}?api_key=${API_KEY}`);
+    const response = await moviesApi.getMovieRuntime(movie.id);
     const runtime = response.data.runtime;
     function runtimeFormatted(runtime: number) {
       const hour = (runtime / 60).toFixed(0);
       const minute = (runtime % 60).toFixed(0);
-      return `${hour}h ${minute}min `;
+      return `${hour}h ${minute}min`;
     }
 
     movie.runtime = runtimeFormatted(runtime);
-
-    // } catch (error) {
-    //   console.log(error);
-    // } finally {
-    //   setLoading(false);
-    // }
   }
 
   useEffect(() => {
-    async function getCastAndRelated() {
+    async function getMovieInfos() {
       setLoading(true);
       try {
         await getCast();
@@ -129,13 +97,13 @@ export function MovieDetails() {
         await getRuntime();
       } catch (error) {
         console.log(error);
-        Alert.alert("Um erro inesperado ocorreu.", String(error));
+        Alert.alert("Unable to get movie informations", String(error));
       } finally {
         setLoading(false);
       }
     }
 
-    getCastAndRelated();
+    getMovieInfos();
   }, [movie]);
 
   return (
